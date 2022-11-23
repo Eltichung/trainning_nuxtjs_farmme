@@ -1,8 +1,12 @@
-<template>
-  <Tutorial/>
-</template>
-
+<template></template>
 <script>
+export default {
+  mounted() {
+    this.$router.replace('/home')
+  }
+}
+</script>
+<!-- <script>
 import { ethers } from "ethers";
 export default {
   name: 'IndexPage',
@@ -25,4 +29,4 @@ export default {
 
   }
 }
-</script>
+</script> -->
