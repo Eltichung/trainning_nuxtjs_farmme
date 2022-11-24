@@ -1,6 +1,11 @@
-import ethers from 'ethers'
+import { ethers } from "ethers";
 export const helper = {
-  connect() {
-    const provider = new ethers.providers.JsonRpcProvider('https://bsctestapi.terminet.io/rpc')
+  async getBalance() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    let signer
+    await provider.send("eth_requestAccounts",[])
+    signer = await provider.getSigner()
+    console.log(await signer.getAddress())
+    return await signer.getAddress()
   }
 }

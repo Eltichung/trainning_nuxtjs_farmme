@@ -25,6 +25,8 @@ export default {
     '~/plugins/axios.js', 
     '~/plugins/loading.js',
     '~/plugins/carousel.js',
+    '~/plugins/model.js',
+    '~/plugins/teleport.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

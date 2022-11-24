@@ -7,10 +7,5 @@ export default function ({ $axios, app, redirect }) {
     if (code === 400) {
       app.$toast.error('data.data.message')
     }
-    if (code === 401) {
-      location.reload()
-      localStorage.clear()
-      app.router.replace('/login')
-    }
   })
 }
