@@ -27,6 +27,7 @@ export default {
     '~/plugins/carousel.js',
     '~/plugins/model.js',
     '~/plugins/teleport.js',
+    '~/plugins/vee-validate.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
