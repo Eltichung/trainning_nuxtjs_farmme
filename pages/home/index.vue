@@ -31,7 +31,7 @@
           :class="{ disable: item.quantity_in_stock == 0 }"
         >
           <div class="sale" v-if="item.best_sale">
-            <img src="~/assets/img/best-seller.png">
+            <img src="~/assets/img/best-seller.png" />
           </div>
           <div class="item-img">
             <img :src="getUrlImg(item.image)" alt="" />
@@ -44,7 +44,9 @@
                 <p class="green">$ {{ item.price }}</p>
                 <p>$ {{ item.base_price }}</p>
               </div>
-              <button :class="{disable_btn:checkQuantity(item.quantity_in_stock)}">{{ getStatusButton(item.quantity_in_stock) }}</button>
+              <button :class="{ disable_btn: checkQuantity(item.quantity_in_stock) }">
+                {{ getStatusButton(item.quantity_in_stock) }}
+              </button>
             </div>
           </div>
         </Tilt>
@@ -148,9 +150,8 @@ export default {
       if (quantity_in_stock <= 0) return 'Sold Out'
       else return 'Buy now'
     },
-    checkQuantity(quantity_in_stock)
-    {
-      return quantity_in_stock==0?true:false
+    checkQuantity(quantity_in_stock) {
+      return quantity_in_stock == 0 ? true : false
     }
   },
   mounted() {
