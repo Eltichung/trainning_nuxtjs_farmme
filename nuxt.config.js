@@ -22,14 +22,18 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/axios.js', 
+    '~/plugins/axios.js',
     '~/plugins/loading.js',
     '~/plugins/carousel.js',
     '~/plugins/model.js',
     '~/plugins/teleport.js',
     '~/plugins/vee-validate.js',
+    '~/plugins/loading-screen.js',
+    '~/plugins/vanilla-tilt.js'
   ],
-
+  axios: {
+    baseURL: process.env.BASE_URL
+  },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
