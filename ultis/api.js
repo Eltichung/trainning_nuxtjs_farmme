@@ -1,4 +1,4 @@
 const api = {
-  API_GET_ITEM: '/api/event'
+  API_GET_ITEM: '/event'
 }
 export default api

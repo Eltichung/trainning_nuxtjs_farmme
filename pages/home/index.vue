@@ -30,6 +30,9 @@
           :parallax="true"
           :class="{ disable: item.quantity_in_stock == 0 }"
         >
+          <div class="sale" v-if="item.best_sale">
+            <img src="~/assets/img/best-seller.png">
+          </div>
           <div class="item-img">
             <img :src="getUrlImg(item.image)" alt="" />
           </div>
@@ -41,7 +44,7 @@
                 <p class="green">$ {{ item.price }}</p>
                 <p>$ {{ item.base_price }}</p>
               </div>
-              <button>{{ getStatusButton(item.quantity_in_stock) }}</button>
+              <button :class="{disable_btn:checkQuantity(item.quantity_in_stock)}">{{ getStatusButton(item.quantity_in_stock) }}</button>
             </div>
           </div>
         </Tilt>
@@ -144,6 +147,10 @@ export default {
     getStatusButton(quantity_in_stock) {
       if (quantity_in_stock <= 0) return 'Sold Out'
       else return 'Buy now'
+    },
+    checkQuantity(quantity_in_stock)
+    {
+      return quantity_in_stock==0?true:false
     }
   },
   mounted() {
@@ -156,8 +163,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.disable {
-  pointer-events: none !important;
-}
-</style>

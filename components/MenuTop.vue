@@ -62,27 +62,10 @@ export default {
     },
     logoutSuccess() {
       this.isConnect = true
+    },
+    logout() {
+      this.$modal.show('logout')
     }
   }
 }
 </script>
-<style lang="scss" scoped>
-.meta_mask {
-  position: relative;
-}
-.login {
-  width: 100%;
-  position: absolute;
-  top: 100%;
-  left: 0%;
-  background: #fff;
-  p {
-    display: block;
-    padding: 10px;
-    cursor: pointer;
-    &:hover {
-      background-color: #f1af1f;
-    }
-  }
-}
-</style>
