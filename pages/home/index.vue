@@ -28,7 +28,7 @@
           v-for="item in dataItems"
           class="item"
           :parallax="true"
-          :class="{ disable: item.quantity_in_stock == 0 }"
+          :class="{ disable: checkQuantity(item.quantity_in_stock) }"
         >
           <div class="sale" v-if="item.best_sale">
             <img src="~/assets/img/best-seller.png" />
@@ -134,6 +134,7 @@ export default {
       }
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
+    //get data api
     this.getItem().then(async (res) => {
       this.dataItems = res.data.data.items
       this.dataEvents = res.data.data.event
