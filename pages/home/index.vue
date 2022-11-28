@@ -24,7 +24,7 @@
       </div>
       <div class="list-product container_1">
         <Tilt
-          :options="options"
+          :options="{max: 18, speed: 400}"
           v-for="item in dataItems"
           class="item"
           :parallax="true"
@@ -40,9 +40,14 @@
             <h3>{{ item.name }}</h3>
             <p>Stock availabel:{{ item.quantity_in_stock }}</p>
             <div class="item-price-btn">
-              <div class="item-price-btn-text">
-                <p class="green">$ {{ item.price }}</p>
-                <p>$ {{ item.base_price }}</p>
+              <div
+                class="item-price-btn-text"
+                :class="{ disable_price: checkQuantity(item.quantity_in_stock) }"
+              >
+                <p class="green">
+                  $ {{ item.price }}
+                </p>
+                <p>{{ getBasePrice(item.quantity_in_stock, item.base_price) }}</p>
               </div>
               <button :class="{ disable_btn: checkQuantity(item.quantity_in_stock) }">
                 {{ getStatusButton(item.quantity_in_stock) }}
@@ -108,7 +113,6 @@
 </template>
 <script>
 import { helper } from '~/helpers/index'
-import option from '~/ultis/option_vanilla'
 import { mapActions } from 'vuex'
 export default {
   data() {
@@ -117,7 +121,6 @@ export default {
       dataItems: [],
       dataEvents: {},
       time: '',
-      options: {}
     }
   },
   created() {
@@ -135,12 +138,15 @@ export default {
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
     //get data api
-    this.getItem().then(async (res) => {
-      this.dataItems = res.data.data.items
-      this.dataEvents = res.data.data.event
-      this.end_date = res.data.data.event.end_date
-    })
-    this.option = option
+    try {
+      this.getItem().then((res) => {
+        this.dataItems = res.data.data.items
+        this.dataEvents = res.data.data.event
+        this.end_date = res.data.data.event.end_date
+      })
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
     ...mapActions('item', ['getItem']),
@@ -153,6 +159,9 @@ export default {
     },
     checkQuantity(quantity_in_stock) {
       return quantity_in_stock == 0 ? true : false
+    },
+    getBasePrice(quantity_in_stock, base_price) {
+      return quantity_in_stock == 0 ? 'Sold Out' : `$ ${base_price}`
     }
   },
   mounted() {
