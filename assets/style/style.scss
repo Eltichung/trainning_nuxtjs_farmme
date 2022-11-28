@@ -20,6 +20,17 @@ a {
 li {
   list-style: none;
 }
+.err
+{
+  display: block;
+  text-align: start;
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: red;
+}
 .container_1 {
   width: 1200px;
   max-width: 90%;
@@ -85,6 +96,7 @@ li {
     gap: 10px;
     align-items: center;
     z-index: 4;
+    cursor: pointer;
     img {
       width: 40px;
       object-fit: contain;
