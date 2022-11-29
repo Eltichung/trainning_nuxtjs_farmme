@@ -4,7 +4,9 @@
       <img src="~/assets/img/logo_farm_me.png" alt="" />
     </div>
     <ul class="menu">
-      <li><a href="#">HOME</a></li>
+      <li>
+        <NuxtLink to="/home">HOME</NuxtLink>
+      </li>
       <li><a href="#">ORDER HISTORY</a></li>
       <li><a href="#">NFT MARKET</a></li>
     </ul>

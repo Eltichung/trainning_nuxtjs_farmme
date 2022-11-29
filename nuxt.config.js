@@ -29,7 +29,8 @@ export default {
     '~/plugins/teleport.js',
     '~/plugins/vee-validate.js',
     '~/plugins/loading-screen.js',
-    '~/plugins/vanilla-tilt.js'
+    '~/plugins/vanilla-tilt.js',
+    '~/plugins/toast.js'
   ],
   axios: {
     baseURL: process.env.BASE_URL

@@ -24,7 +24,7 @@
       </div>
       <div class="list-product container_1">
         <Tilt
-          :options="{max: 18, speed: 400}"
+          :options="{ max: 18, speed: 400 }"
           v-for="item in dataItems"
           class="item"
           :parallax="true"
@@ -44,12 +44,13 @@
                 class="item-price-btn-text"
                 :class="{ disable_price: checkQuantity(item.quantity_in_stock) }"
               >
-                <p class="green">
-                  $ {{ item.price }}
-                </p>
+                <p class="green">$ {{ item.price }}</p>
                 <p>{{ getBasePrice(item.quantity_in_stock, item.base_price) }}</p>
               </div>
-              <button :class="{ disable_btn: checkQuantity(item.quantity_in_stock) }">
+              <button
+                :class="{ disable_btn: checkQuantity(item.quantity_in_stock) }"
+                @click="getDetail(item.id)"
+              >
                 {{ getStatusButton(item.quantity_in_stock) }}
               </button>
             </div>
@@ -120,7 +121,7 @@ export default {
       loading: true,
       dataItems: [],
       dataEvents: {},
-      time: '',
+      time: ''
     }
   },
   created() {
@@ -162,6 +163,9 @@ export default {
     },
     getBasePrice(quantity_in_stock, base_price) {
       return quantity_in_stock == 0 ? 'Sold Out' : `$ ${base_price}`
+    },
+    getDetail(id) {
+      this.$router.push(`detail/${id}`)
     }
   },
   mounted() {
