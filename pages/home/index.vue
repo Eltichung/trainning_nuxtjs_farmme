@@ -18,23 +18,23 @@
       <div class="time">
         <h3>{{ dataEvents.name }}</h3>
         <div class="clock">
-          <p>{{ time.day }}</p>
-          <p>{{ time.hours }}</p>
+          <span>{{ time.day }}</span>
+          <p v-for="(item, index) in time" :key="index">{{ item }}</p>
         </div>
       </div>
       <div class="list-product container_1">
         <Tilt
-          :options="{max: 18, speed: 400}"
+          :options="{ max: 18, speed: 400 }"
           v-for="item in dataItems"
           class="item"
           :parallax="true"
-          :class="{ disable: checkQuantity(item.quantity_in_stock) }"
+          :class="{ disable: !Boolean(item.quantity_in_stock) }"
         >
           <div class="sale" v-if="item.best_sale">
             <img src="~/assets/img/best-seller.png" />
           </div>
           <div class="item-img">
-            <img :src="getUrlImg(item.image)" alt="" />
+            <img :src="require(`~/assets/img/${item.image}.png`)" alt="" />
           </div>
           <div class="item-price">
             <h3>{{ item.name }}</h3>
@@ -42,14 +42,12 @@
             <div class="item-price-btn">
               <div
                 class="item-price-btn-text"
-                :class="{ disable_price: checkQuantity(item.quantity_in_stock) }"
+                :class="{ disable_price: !Boolean(item.quantity_in_stock) }"
               >
-                <p class="green">
-                  $ {{ item.price }}
-                </p>
+                <p class="green">$ {{ item.price }}</p>
                 <p>{{ getBasePrice(item.quantity_in_stock, item.base_price) }}</p>
               </div>
-              <button :class="{ disable_btn: checkQuantity(item.quantity_in_stock) }">
+              <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }">
                 {{ getStatusButton(item.quantity_in_stock) }}
               </button>
             </div>
@@ -120,7 +118,7 @@ export default {
       loading: true,
       dataItems: [],
       dataEvents: {},
-      time: '',
+      time: ''
     }
   },
   created() {
@@ -138,26 +136,23 @@ export default {
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
     //get data api
-      this.getItem().then((res) => {
+    this.getItem()
+      .then((res) => {
         this.dataItems = res.data.data.items
         this.dataEvents = res.data.data.event
         this.end_date = res.data.data.event.end_date
       })
+      .catch((err) => {
+        console.error(err)
+      })
   },
   methods: {
     ...mapActions('item', ['getItem']),
-    getUrlImg(urlItem) {
-      return require(`~/assets/img/${urlItem}.png`)
-    },
     getStatusButton(quantity_in_stock) {
-      if (quantity_in_stock <= 0) return 'Sold Out'
-      else return 'Buy now'
-    },
-    checkQuantity(quantity_in_stock) {
-      return quantity_in_stock == 0 ? true : false
+      return quantity_in_stock ? 'Sold Out' : 'Buy now'
     },
     getBasePrice(quantity_in_stock, base_price) {
-      return quantity_in_stock == 0 ? 'Sold Out' : `$ ${base_price}`
+      return quantity_in_stock ? `$ ${base_price}` : 'Sold Out'
     }
   },
   mounted() {
