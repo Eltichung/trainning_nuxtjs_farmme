@@ -1,4 +1,5 @@
 import api from '~/ultis/api'
+import { helper } from '~/helpers/index'
 export default {
   getItem({ commit, state }, data) {
     return new Promise((resolve, reject) => {
@@ -8,6 +9,7 @@ export default {
           resolve(response)
         })
         .catch((error) => {
+          helper.processErrorAPI(error)
           reject(error)
         })
     })
