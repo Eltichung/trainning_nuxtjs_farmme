@@ -118,6 +118,7 @@ export default {
       dataItems: [],
       dataEvents: {},
       time: '',
+      interval:true
     }
   },
   created() {
@@ -140,9 +141,13 @@ export default {
       this.dataEvents = res.data.data.event
       this.countDown(res.data.data.event.end_date)
       this.loading = false
-      setInterval(() => {
-        this.countDown(res.data.data.event.end_date)
-      }, 1000)
+      if(this.interval)
+      {
+        setInterval(() => {
+          this.countDown(res.data.data.event.end_date)
+        }, 1000)
+        this.interval=false
+      }
     })
   },
   methods: {
