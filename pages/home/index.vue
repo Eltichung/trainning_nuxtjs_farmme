@@ -117,7 +117,7 @@ export default {
       loading: true,
       dataItems: [],
       dataEvents: {},
-      time: ''
+      time: '',
     }
   },
   created() {
@@ -135,36 +135,36 @@ export default {
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
     //get data api
-    this.getItem()
-      .then((res) => {
-        this.dataItems = res.data.data.items
-        this.dataEvents = res.data.data.event
-        setInterval(() => {
-          this.time = this.countDown(res.data.data.event.end_date)
-          this.loading = false
-        }, 1000)
-      })
+    this.getItem().then((res) => {
+      this.dataItems = res.data.data.items
+      this.dataEvents = res.data.data.event
+      this.countDown(res.data.data.event.end_date)
+      this.loading = false
+      setInterval(() => {
+        this.countDown(res.data.data.event.end_date)
+      }, 1000)
+    })
   },
   methods: {
     ...mapActions('item', ['getItem']),
     countDown(end_date) {
-    const timeNow = new Date().getTime()
-    const countDownToTime = new Date(end_date).getTime()
-    const timeDifference = countDownToTime - timeNow
-    if (timeDifference <= 0) {
-      return 'Sold Out'
-    } else {
-      let seconds = Math.floor((timeDifference / 1000) % 60)
-      let minutes = Math.floor((timeDifference / 1000 / 60) % 60)
-      let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24)
-      let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-      //format
-      seconds = seconds < 10 ? `0 ${seconds}` : seconds
-      minutes = minutes < 10 ? `0 ${minutes}` : minutes
-      hours = hours < 10 ? `0 ${hours}` : hours
-      return `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
+      const timeNow = new Date().getTime()
+      const countDownToTime = new Date(end_date).getTime()
+      const timeDifference = countDownToTime - timeNow
+      if (timeDifference <= 0) {
+        this.time = 'Sold Out'
+      } else {
+        let seconds = Math.floor((timeDifference / 1000) % 60)
+        let minutes = Math.floor((timeDifference / 1000 / 60) % 60)
+        let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24)
+        let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+        //format
+        seconds = seconds < 10 ? `0 ${seconds}` : seconds
+        minutes = minutes < 10 ? `0 ${minutes}` : minutes
+        hours = hours < 10 ? `0 ${hours}` : hours
+        this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
+      }
     }
-  }
   }
 }
 </script>
