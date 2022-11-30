@@ -131,6 +131,7 @@ export default {
       else if(newValue<0)
       {
         alert('err')
+        this.count = 1
       }
     },
   },

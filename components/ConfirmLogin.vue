@@ -10,24 +10,12 @@
   </modal>
 </template>
 <script>
-import { helper } from '~/helpers/index'
 export default {
+  props:["connectMetamask"],
   methods: {
     login() {
-      helper.getBalance().then((data) => {
-        let isUser = false
-        localStorage.setItem('address', data)
-        let dataUser = JSON.parse(localStorage.getItem('dataUser'))
-        dataUser.forEach((item) => {
-          if (item.address == data) {
-            localStorage.setItem('user', JSON.stringify(item))
-            this.$emit('loginSuccess')
-            isUser = true
-            return
-          }
-        })
-        if (!isUser) this.$modal.show('register')
-      })
+      console.log("1")
+      this.connectMetamask()
     }
   }
 }
