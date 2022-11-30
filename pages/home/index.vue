@@ -138,15 +138,11 @@ export default {
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
     //get data api
-    try {
       this.getItem().then((res) => {
         this.dataItems = res.data.data.items
         this.dataEvents = res.data.data.event
         this.end_date = res.data.data.event.end_date
       })
-    } catch (err) {
-      console.log(err)
-    }
   },
   methods: {
     ...mapActions('item', ['getItem']),

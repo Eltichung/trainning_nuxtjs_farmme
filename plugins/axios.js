@@ -5,7 +5,7 @@ export default function ({ $axios, app, redirect }) {
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
     if (code === 400) {
-      app.$toast.error('data.data.message')
+      app.$toast.error(error.response.data.message)
     }
   })
 }
