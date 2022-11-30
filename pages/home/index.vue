@@ -46,8 +46,8 @@
                 <p class="green">$ {{ item.price }}</p>
                 <p>{{ item.quantity_in_stock ? `$ ${item.base_price}` : 'Sold Out' }}</p>
               </div>
-              <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }">
-                {{ item.quantity_in_stock ? 'Sold Out' : 'Buy now' }}
+              <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }" @click="getDetail(item.id)">
+                {{ item.quantity_in_stock ? 'Buy now': 'Sold Out'  }} 
               </button>
             </div>
           </div>
@@ -169,6 +169,9 @@ export default {
         hours = hours < 10 ? `0 ${hours}` : hours
         this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
       }
+    },
+    getDetail(id){
+      this.$router.push(`/detail/${id}`)
     }
   }
 }

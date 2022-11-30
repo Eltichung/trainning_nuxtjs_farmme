@@ -12,6 +12,10 @@ export const helper = {
   decodeSha1(message) {
     return sha1(message)
   },
+  async checkConnection() {
+    const accounts = await ethereum.request({ method: 'eth_accounts' })
+    return Boolean(accounts.length)
+  },
   processErrorAPI(err) {
     console.error(err)
   }
