@@ -23,6 +23,7 @@ export default {
           resolve(response)
         })
         .catch((error) => {
+          helper.processErrorAPI(error)
           reject(error)
         })
     })

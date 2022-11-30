@@ -155,13 +155,10 @@ export default {
     decreaseCount() {
       if (this.count > 1) this.count--
     },
-    checkDiscountCode() {
-      let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
-      return (!regexSpecial.test(this.discountCode) && this.discountCode.length<10)
-    },
     async submit() {
+      let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
       let isConnect = await helper.checkConnection()
-      if (this.checkDiscountCode()) {
+      if (!regexSpecial.test(this.discountCode) && this.discountCode.length<10) {
         if (isConnect) {
           this.statusBtn = false 
           setTimeout(() => (this.statusBtn = true), 1000)
