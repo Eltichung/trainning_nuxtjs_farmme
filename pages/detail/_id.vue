@@ -1,5 +1,18 @@
 <template>
   <div class="detail">
+    <loader
+      object="#ff9633"
+      color1="#ffffff"
+      color2="#17fd3d"
+      size="5"
+      speed="2"
+      bg="#343a40"
+      objectbg="#999793"
+      opacity="80"
+      name="circular"
+      disableScrolling="true"
+      v-if="isLoader"
+    ></loader>
     <MenuTop />
     <div class="bg_detail">
       <img src="~/assets/img/bg-2.png" alt="" />
@@ -8,7 +21,7 @@
       <div class="detail-main-content">
         <div class="container_1 detail-page">
           <div class="detail-item-img col-xs-5">
-            <img :src="urlImg" alt="" />
+            <img :src="require(`~/assets/img/${dataSkateboard.image}.png`)" alt="" v-if="!isLoader"/>
           </div>
           <div class="detail-item-text col-xs-7">
             <div class="box-main">
@@ -80,7 +93,7 @@
                     @click="submit"
                     v-if="statusBtn"
                   >
-                    {{ getStatusButton(dataSkateboard.sold_out) }}
+                    {{ dataSkateboard.sold_out ? 'Pay order':'Sold Out'  }}
                   </button>
                   <button v-else class="disable_btn">Bought</button>
                 </div>
@@ -101,32 +114,32 @@ export default {
     return {
       dataSkateboard: {},
       count: 1,
-      urlImg: '',
       discountCode: '',
-      loading: false,
-      statusBtn: true
+      statusBtn: true,
+      isLoader:true
     }
-  },
-  created() {
-    this.getDetailItem(this.$route.params.id).then((res) => {
-      this.dataSkateboard = res.data.data
-      this.getUrlImg()
-    })
   },
   watch: {
     count(newValue) {
       if (
         newValue > this.dataSkateboard.maximum_quantity ||
-        newValue > this.dataSkateboard.quantity_in_stock ||
-        newValue < 0
+        newValue > this.dataSkateboard.quantity_in_stock
       ) {
         alert('err')
         this.count = this.dataSkateboard.maximum_quantity
       }
+      else if(newValue<0)
+      {
+        alert('err')
+      }
     },
-    discountCode(newValue) {
-      if (!this.checkDiscountCode(newValue)) this.$toast.error('Value not valid')
-    }
+  },
+  created() {
+    this.getDetailItem(this.$route.params.id)
+    .then((res) => {
+      this.dataSkateboard = res.data.data
+      this.isLoader=false
+    })
   },
   methods: {
     ...mapActions('item', ['getDetailItem']),
@@ -142,21 +155,13 @@ export default {
     decreaseCount() {
       if (this.count > 1) this.count--
     },
-    getUrlImg() {
-      this.urlImg = require(`~/assets/img/${this.dataSkateboard.image}.png`)
-    },
-    getStatusButton(sold_out) {
-      return sold_out ? 'Sold Out' : 'Pay order'
-    },
-    checkDiscountCode(newValue) {
-      let regexLength = /^.{0,10}$/
+    checkDiscountCode() {
       let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
-      if (!regexSpecial.test(newValue) && regexLength.test(newValue)) return true
-      else return false
+      return (!regexSpecial.test(this.discountCode) && this.discountCode.length<10)
     },
     async submit() {
       let isConnect = await helper.checkConnection()
-      if (this.checkDiscountCode(this.discountCode)) {
+      if (this.checkDiscountCode()) {
         if (isConnect) {
           this.statusBtn = false 
           setTimeout(() => (this.statusBtn = true), 1000)
