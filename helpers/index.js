@@ -56,5 +56,11 @@ export const helper = {
       }
     }
     return result
+  },
+  async checkConnection() {
+    const accounts = await ethereum.request({ method: 'eth_accounts' })
+    if (accounts.length) {
+      return true
+    } else return false
   }
 }

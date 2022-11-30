@@ -61,23 +61,28 @@
                       <img src="~/assets/img/plus.png" alt="" />
                     </div>
                     <div class="input">
-                      <input type="number" v-model="count" disabled />
+                      <input type="number" v-model="count" />
                     </div>
                     <div class="box-input-img" @click="decreaseCount">
-                      <img src="~/assets/img/minus.png" alt="" />
+                      <img src="~/assets/img/minus.png" />
                     </div>
                   </div>
                 </div>
                 <div class="box-item center-xs">
                   <p>Discount Code</p>
-                  <input type="text" />
+                  <input type="text" v-model="discountCode" />
                 </div>
                 <div class="box-item center-xs">
                   <p>Total pay</p>
                   <p class="orange">{{ getTotalPay(dataSkateboard.price) }}</p>
-                  <button :class="{ disable_btn: dataSkateboard.sold_out }">
+                  <button
+                    :class="{ disable_btn: dataSkateboard.sold_out }"
+                    @click="submit"
+                    v-if="statusBtn"
+                  >
                     {{ getStatusButton(dataSkateboard.sold_out) }}
                   </button>
+                  <button v-else class="disable_btn">Bought</button>
                 </div>
               </div>
             </div>
@@ -90,12 +95,16 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { helper } from '~/helpers/index'
 export default {
   data() {
     return {
       dataSkateboard: {},
       count: 1,
-      urlImg: ''
+      urlImg: '',
+      discountCode: '',
+      loading: false,
+      statusBtn: true
     }
   },
   created() {
@@ -104,29 +113,55 @@ export default {
       this.getUrlImg()
     })
   },
+  watch: {
+    count(newValue) {
+      if (
+        newValue > this.dataSkateboard.maximum_quantity ||
+        newValue > this.dataSkateboard.quantity_in_stock ||
+        newValue < 0
+      ) {
+        alert('err')
+        this.count = this.dataSkateboard.maximum_quantity
+      }
+    },
+    discountCode(newValue) {
+      if (!this.checkDiscountCode(newValue)) this.$toast.error('Value not valid')
+    }
+  },
   methods: {
     ...mapActions('item', ['getDetailItem']),
     getTotalPoll(data) {
       return `${data.quantity_in_stock}/${data.quantity}`
     },
     getTotalPay(price) {
-      return `${(this.count * price).toFixed(3)} USDT`
+      return `${(this.count * price).toFixed(2)} USDT`
     },
     increaseCount() {
       if (this.count < this.dataSkateboard.maximum_quantity) this.count++
     },
     decreaseCount() {
       if (this.count > 1) this.count--
-      this.$toast.success({
-        title: '12',
-        message: '123'
-      })
     },
     getUrlImg() {
       this.urlImg = require(`~/assets/img/${this.dataSkateboard.image}.png`)
     },
     getStatusButton(sold_out) {
       return sold_out ? 'Sold Out' : 'Pay order'
+    },
+    checkDiscountCode(newValue) {
+      let regexLength = /^.{0,10}$/
+      let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
+      if (!regexSpecial.test(newValue) && regexLength.test(newValue)) return true
+      else return false
+    },
+    async submit() {
+      let isConnect = await helper.checkConnection()
+      if (this.checkDiscountCode(this.discountCode)) {
+        if (isConnect) {
+          this.statusBtn = false 
+          setTimeout(() => (this.statusBtn = true), 1000)
+        } else this.$modal.show('login')
+      } else this.$toast.error('Err')
     }
   }
 }

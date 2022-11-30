@@ -12,7 +12,7 @@
     </ul>
     <div class="meta_mask">
       <img src="~/assets/img/logo.png" alt="" />
-      <p @click="connect" v-if="isConnect">Connect Metamask</p>
+      <p @click="connect" v-if="isConnect" ref="isLogin">Connect Metamask</p>
       <p @click="logout" v-else>{{ Username }}</p>
     </div>
     <Teleport to="body">
@@ -20,6 +20,9 @@
     </Teleport>
     <Teleport to="body">
       <RegisterForm @loginSuccess="loginSuccess" />
+    </Teleport>
+    <Teleport to="body">
+      <ConfirmLogin @loginSuccess="loginSuccess" />
     </Teleport>
   </div>
 </template>
@@ -61,6 +64,7 @@ export default {
       this.isConnect = false
       let dataUser = JSON.parse(localStorage.getItem('user'))
       this.Username = dataUser.user
+      this.$modal.hide('login')
     },
     logoutSuccess() {
       this.isConnect = true

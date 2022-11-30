@@ -1,8 +1,10 @@
 import Vue from 'vue'
-import CxltToastr from 'cxlt-vue2-toastr'
-import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css'
-var toastrConfigs = {
-  position: 'top right',
-  showDuration: 2000
+import Toast from 'vue-toastification'
+// Import the CSS or use your own!
+import 'vue-toastification/dist/index.css'
+
+const options = {
+  timeout: 2000
 }
-Vue.use(CxltToastr, toastrConfigs)
+
+Vue.use(Toast, options)

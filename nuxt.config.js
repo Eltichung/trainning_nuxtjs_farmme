@@ -35,6 +35,9 @@ export default {
   axios: {
     baseURL: process.env.BASE_URL
   },
+  router: {
+    middleware: ['check-connect']
+  },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
