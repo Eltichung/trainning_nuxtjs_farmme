@@ -18,8 +18,7 @@
       <div class="time">
         <h3>{{ dataEvents.name }}</h3>
         <div class="clock">
-          <span>{{ time.day }}</span>
-          <p v-for="(item, index) in time" :key="index">{{ item }}</p>
+          <p v-html="time"></p>
         </div>
       </div>
       <div class="list-product container_1">
@@ -45,10 +44,10 @@
                 :class="{ disable_price: !Boolean(item.quantity_in_stock) }"
               >
                 <p class="green">$ {{ item.price }}</p>
-                <p>{{ getBasePrice(item.quantity_in_stock, item.base_price) }}</p>
+                <p>{{ item.quantity_in_stock ? `$ ${item.base_price}` : 'Sold Out' }}</p>
               </div>
               <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }">
-                {{ getStatusButton(item.quantity_in_stock) }}
+                {{ item.quantity_in_stock ? 'Sold Out' : 'Buy now' }}
               </button>
             </div>
           </div>
@@ -140,28 +139,32 @@ export default {
       .then((res) => {
         this.dataItems = res.data.data.items
         this.dataEvents = res.data.data.event
-        this.end_date = res.data.data.event.end_date
-      })
-      .catch((err) => {
-        console.error(err)
+        setInterval(() => {
+          this.time = this.countDown(res.data.data.event.end_date)
+          this.loading = false
+        }, 1000)
       })
   },
   methods: {
     ...mapActions('item', ['getItem']),
-    getStatusButton(quantity_in_stock) {
-      return quantity_in_stock ? 'Sold Out' : 'Buy now'
-    },
-    getBasePrice(quantity_in_stock, base_price) {
-      return quantity_in_stock ? `$ ${base_price}` : 'Sold Out'
+    countDown(end_date) {
+    const timeNow = new Date().getTime()
+    const countDownToTime = new Date(end_date).getTime()
+    const timeDifference = countDownToTime - timeNow
+    if (timeDifference <= 0) {
+      return 'Sold Out'
+    } else {
+      let seconds = Math.floor((timeDifference / 1000) % 60)
+      let minutes = Math.floor((timeDifference / 1000 / 60) % 60)
+      let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24)
+      let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+      //format
+      seconds = seconds < 10 ? `0 ${seconds}` : seconds
+      minutes = minutes < 10 ? `0 ${minutes}` : minutes
+      hours = hours < 10 ? `0 ${hours}` : hours
+      return `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000)
-    setInterval(() => {
-      this.time = helper.countDown(this.end_date)
-    }, 1000)
+  }
   }
 }
 </script>
