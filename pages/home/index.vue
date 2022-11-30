@@ -1,15 +1,58 @@
 <template>
   <div>
+    <loader
+      object="#ff9633"
+      color1="#ffffff"
+      color2="#17fd3d"
+      size="5"
+      speed="2"
+      bg="#343a40"
+      objectbg="#999793"
+      opacity="80"
+      name="circular"
+      disableScrolling="true"
+      v-if="loading"
+    ></loader>
     <div class="main">
       <MenuTop />
       <div class="time">
-        <h3>EVENT PRE-ORDER SKATEBOARD NFT</h3>
+        <h3>{{ dataEvents.name }}</h3>
         <div class="clock">
-          <p>2D</p>
-          <p>04:03:59</p>
+          <p v-html="time"></p>
         </div>
       </div>
-      <ItemCard />
+      <div class="list-product container_1">
+        <Tilt
+          :options="{ max: 18, speed: 400 }"
+          v-for="item in dataItems"
+          class="item"
+          :parallax="true"
+          :class="{ disable: !Boolean(item.quantity_in_stock) }"
+        >
+          <div class="sale" v-if="item.best_sale">
+            <img src="~/assets/img/best-seller.png" />
+          </div>
+          <div class="item-img">
+            <img :src="require(`~/assets/img/${item.image}.png`)" alt="" />
+          </div>
+          <div class="item-price">
+            <h3>{{ item.name }}</h3>
+            <p>Stock availabel:{{ item.quantity_in_stock }}</p>
+            <div class="item-price-btn">
+              <div
+                class="item-price-btn-text"
+                :class="{ disable_price: !Boolean(item.quantity_in_stock) }"
+              >
+                <p class="green">$ {{ item.price }}</p>
+                <p>{{ item.quantity_in_stock ? `$ ${item.base_price}` : 'Sold Out' }}</p>
+              </div>
+              <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }">
+                {{ item.quantity_in_stock ? 'Sold Out' : 'Buy now' }}
+              </button>
+            </div>
+          </div>
+        </Tilt>
+      </div>
     </div>
     <div class="bg">
       <img src="~/assets/img/bg-1.png" alt="" />
@@ -67,7 +110,17 @@
 </template>
 <script>
 import { helper } from '~/helpers/index'
+import { mapActions } from 'vuex'
 export default {
+  data() {
+    return {
+      loading: true,
+      dataItems: [],
+      dataEvents: {},
+      time: '',
+      interval:true
+    }
+  },
   created() {
     let data = [
       {
@@ -82,6 +135,41 @@ export default {
       }
     ]
     localStorage.setItem('dataUser', JSON.stringify(data))
+    //get data api
+    this.getItem().then((res) => {
+      this.dataItems = res.data.data.items
+      this.dataEvents = res.data.data.event
+      this.countDown(res.data.data.event.end_date)
+      this.loading = false
+      if(this.interval)
+      {
+        setInterval(() => {
+          this.countDown(res.data.data.event.end_date)
+        }, 1000)
+        this.interval=false
+      }
+    })
+  },
+  methods: {
+    ...mapActions('item', ['getItem']),
+    countDown(end_date) {
+      const timeNow = new Date().getTime()
+      const countDownToTime = new Date(end_date).getTime()
+      const timeDifference = countDownToTime - timeNow
+      if (timeDifference <= 0) {
+        this.time = 'Sold Out'
+      } else {
+        let seconds = Math.floor((timeDifference / 1000) % 60)
+        let minutes = Math.floor((timeDifference / 1000 / 60) % 60)
+        let hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24)
+        let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
+        //format
+        seconds = seconds < 10 ? `0 ${seconds}` : seconds
+        minutes = minutes < 10 ? `0 ${minutes}` : minutes
+        hours = hours < 10 ? `0 ${hours}` : hours
+        this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
+      }
+    }
   }
 }
 </script>

@@ -27,9 +27,13 @@ export default {
     '~/plugins/carousel.js',
     '~/plugins/model.js',
     '~/plugins/teleport.js',
-    '~/plugins/vee-validate.js'
+    '~/plugins/vee-validate.js',
+    '~/plugins/loading-screen.js',
+    '~/plugins/vanilla-tilt.js'
   ],
-
+  axios: {
+    baseURL: process.env.BASE_URL
+  },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

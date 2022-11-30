@@ -11,5 +11,8 @@ export const helper = {
   },
   decodeSha1(message) {
     return sha1(message)
+  },
+  processErrorAPI(err) {
+    console.error(err)
   }
 }
