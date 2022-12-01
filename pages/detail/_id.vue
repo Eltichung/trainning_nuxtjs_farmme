@@ -121,13 +121,10 @@ export default {
     }
   },
   created() {
-    this.getDetailItem(this.$route.params.id).then((res) => {
-      this.dataSkateboard = res.data.data
-      this.loading = false
-    })
+    this.getdata()
   },
   methods: {
-    ...mapActions('item', ['getDetailItem']),
+    ...mapActions('item', ['getDetailItem', 'buyItem']),
     getTotalPoll(data) {
       return `${data.quantity_in_stock}/${data.quantity}`
     },
@@ -140,6 +137,12 @@ export default {
     decreaseCount() {
       if (this.count > 1) this.count--
     },
+    getdata() {
+      this.getDetailItem(this.$route.params.id).then((res) => {
+        this.dataSkateboard = res.data.data
+        this.loading = false
+      })
+    },
     async submit() {
       let regexSpecial = /^[a-zA-Z0-9]*$/
       let isConnect = await helper.checkConnection()
@@ -147,7 +150,16 @@ export default {
       if (regexSpecial.test(this.discountCode) && this.discountCode.length < 10) {
         if (isConnect) {
           this.statusBtn = false
+          let dataItime = {
+            item_id: this.dataSkateboard.id,
+            quantity: this.count,
+            coupon_code: this.discountCode
+          }
           setTimeout(() => (this.statusBtn = true), 1000)
+          this.loading = true
+          this.buyItem(dataItime).then(() => {
+            this.getdata()
+          })
         } else {
           this.$modal.show('login')
         }
