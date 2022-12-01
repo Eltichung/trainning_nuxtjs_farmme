@@ -33,10 +33,10 @@ export default {
       this.$axios
         .post(api.API_GET_BUY_ITEM, data)
         .then((response) => {
+          helper.processSuccessAPI()
           resolve(response)
         })
         .catch((error) => {
-          this._vm.$toast.error("error");
           helper.processErrorAPI(error)
           reject(error)
         })

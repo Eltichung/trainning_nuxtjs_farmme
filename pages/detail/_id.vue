@@ -157,7 +157,7 @@ export default {
           }
           setTimeout(() => (this.statusBtn = true), 1000)
           this.loading = true
-          this.buyItem(dataItime).then(() => {
+          this.buyItem(dataItime).then((res) => {
             this.getdata()
           })
         } else {
