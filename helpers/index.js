@@ -29,8 +29,8 @@ export const helper = {
       localStorage.removeItem('address')
     }
   },
-  async checkConnection() {
-    return await ethereum.request({ method: 'eth_accounts' })
+  checkConnection() {
+    return ethereum.request({ method: 'eth_accounts' })
   },
   processErrorAPI(err, message = 'error') {
     Vue.$toast.error(message)
