@@ -157,9 +157,6 @@ export default {
         hours = hours < 10 ? `0 ${hours}` : hours
         this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
       }
-    },
-    getDetail(id) {
-      this.$router.push(`/detail/${id}`)
     }
   }
 }
