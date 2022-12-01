@@ -47,10 +47,10 @@ export default {
     connect() {
       helper.getBalance().then((data) => {
         let isUser = false
-        localStorage.setItem('address', data)
         let dataUser = JSON.parse(localStorage.getItem('dataUser'))
         dataUser.forEach((item) => {
           if (item.address == data) {
+            localStorage.setItem('address', data)
             localStorage.setItem('user', JSON.stringify(item))
             this.loginSuccess()
             isUser = true

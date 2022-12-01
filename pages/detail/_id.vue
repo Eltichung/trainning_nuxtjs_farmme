@@ -148,7 +148,7 @@ export default {
       let isConnect = await helper.checkConnection()
       this.discountCode = this.discountCode.trim()
       if (regexSpecial.test(this.discountCode) && this.discountCode.length < 10) {
-        if (isConnect) {
+        if (isConnect && localStorage.getItem('address') != null) {
           this.statusBtn = false
           let dataItime = {
             item_id: this.dataSkateboard.id,
@@ -157,9 +157,11 @@ export default {
           }
           setTimeout(() => (this.statusBtn = true), 1000)
           this.loading = true
-          this.buyItem(dataItime).then((res) => {
-            this.getdata()
-          })
+          this.buyItem(dataItime)
+            .then((res) => {
+              this.getdata()
+            })
+            .catch(() => (this.loading = false))
         } else {
           this.$modal.show('login')
         }
