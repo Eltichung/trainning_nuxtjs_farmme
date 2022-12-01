@@ -32,15 +32,11 @@ export default {
     return new Promise((resolve, reject) => {
       this.$axios
         .post(api.API_GET_BUY_ITEM, data)
-        // .post(api.API_GET_BUY_ITEM, data,{
-        //     headers: {
-        //       Authorization: 'Bearer ' + ' 256|WWSqAEjVvum4W3Cdy3tDKdH7YnC7fuG7TsQ6WdFP'
-        //     }
-        // })
         .then((response) => {
           resolve(response)
         })
         .catch((error) => {
+          this._vm.$toast.error("error");
           helper.processErrorAPI(error)
           reject(error)
         })

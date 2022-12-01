@@ -1,6 +1,6 @@
-import constanst from '~/ultis/constanst'
 export default function ({ $axios, app, redirect }) {
-  $axios.defaults.headers.common['Authorization'] = constanst.HEADER_API
+  $axios.defaults.headers.common['Authorization'] =
+    'Bearer 256|WWSqAEjVvum4W3Cdy3tDKdH7YnC7fuG7TsQ6WdFP'
   $axios.create({
     baseURL: process.env.BASE_URL
   })
