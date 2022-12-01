@@ -20,7 +20,5 @@ export default async function () {
   if (!address.length) {
     localStorage.removeItem('user')
     localStorage.removeItem('address')
-  } else {
-    helper.checkAccount(address[0])
-  }
+  } 
 }
