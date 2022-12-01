@@ -27,5 +27,19 @@ export default {
           reject(error)
         })
     })
+  },
+  buyItem({ commit, state }, data) {
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .post(api.API_GET_BUY_ITEM, data)
+        .then((response) => {
+          helper.processSuccessAPI()
+          resolve(response)
+        })
+        .catch((error) => {
+          helper.processErrorAPI(error)
+          reject(error)
+        })
+    })
   }
 }

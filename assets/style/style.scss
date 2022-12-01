@@ -57,6 +57,7 @@ li {
 .disable_btn {
   background-image: unset !important;
   background-color: #666 !important;
+  pointer-events: none;
 }
 .disable {
   pointer-events: none !important;

@@ -14,7 +14,6 @@ export default {
   props: ['connectMetamask'],
   methods: {
     login() {
-      console.log('1')
       this.connectMetamask()
     }
   }
