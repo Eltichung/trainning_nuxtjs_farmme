@@ -13,5 +13,19 @@ export default {
           reject(error)
         })
     })
+  },
+  getDetailItem({ commit, state }, id) {
+    let query = `${api.API_GET_DETAIL_ITEM}/${id}`
+    return new Promise((resolve, reject) => {
+      this.$axios
+        .get(query)
+        .then((response) => {
+          resolve(response)
+        })
+        .catch((error) => {
+          helper.processErrorAPI(error)
+          reject(error)
+        })
+    })
   }
 }

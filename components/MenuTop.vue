@@ -4,13 +4,15 @@
       <img src="~/assets/img/logo_farm_me.png" alt="" />
     </div>
     <ul class="menu">
-      <li><a href="#">HOME</a></li>
+      <li>
+        <NuxtLink to="/home">HOME</NuxtLink>
+      </li>
       <li><a href="#">ORDER HISTORY</a></li>
       <li><a href="#">NFT MARKET</a></li>
     </ul>
     <div class="meta_mask">
       <img src="~/assets/img/logo.png" alt="" />
-      <p @click="connect" v-if="isConnect">Connect Metamask</p>
+      <p @click="connect" v-if="isConnect" ref="isLogin">Connect Metamask</p>
       <p @click="logout" v-else>{{ Username }}</p>
     </div>
     <Teleport to="body">
@@ -18,6 +20,9 @@
     </Teleport>
     <Teleport to="body">
       <RegisterForm @loginSuccess="loginSuccess" />
+    </Teleport>
+    <Teleport to="body">
+      <ConfirmLogin @loginSuccess="loginSuccess" :connectMetamask="connect" />
     </Teleport>
   </div>
 </template>
@@ -52,13 +57,17 @@ export default {
             return
           }
         })
-        if (!isUser) this.$modal.show('register')
+        if (!isUser) {
+          this.$modal.hide('login')
+          this.$modal.show('register')
+        }
       })
     },
     loginSuccess() {
       this.isConnect = false
       let dataUser = JSON.parse(localStorage.getItem('user'))
       this.Username = dataUser.user
+      this.$modal.hide('login')
     },
     logoutSuccess() {
       this.isConnect = true

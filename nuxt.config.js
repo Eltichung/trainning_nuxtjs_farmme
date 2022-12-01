@@ -29,10 +29,14 @@ export default {
     '~/plugins/teleport.js',
     '~/plugins/vee-validate.js',
     '~/plugins/loading-screen.js',
-    '~/plugins/vanilla-tilt.js'
+    '~/plugins/vanilla-tilt.js',
+    '~/plugins/toast.js'
   ],
   axios: {
     baseURL: process.env.BASE_URL
+  },
+  router: {
+    middleware: ['check-connect']
   },
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
