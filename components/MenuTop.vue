@@ -22,7 +22,7 @@
       <RegisterForm @loginSuccess="loginSuccess" />
     </Teleport>
     <Teleport to="body">
-      <ConfirmLogin @loginSuccess="loginSuccess" :connectMetamask="connect"/>
+      <ConfirmLogin @loginSuccess="loginSuccess" :connectMetamask="connect" />
     </Teleport>
   </div>
 </template>

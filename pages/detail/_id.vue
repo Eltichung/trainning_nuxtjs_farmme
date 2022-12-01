@@ -1,18 +1,6 @@
 <template>
   <div class="detail">
-    <loader
-      object="#ff9633"
-      color1="#ffffff"
-      color2="#17fd3d"
-      size="5"
-      speed="2"
-      bg="#343a40"
-      objectbg="#999793"
-      opacity="80"
-      name="circular"
-      disableScrolling="true"
-      v-if="isLoader"
-    ></loader>
+    <LoadingScreen v-if="loading" />
     <MenuTop />
     <div class="bg_detail">
       <img src="~/assets/img/bg-2.png" alt="" />
@@ -21,7 +9,7 @@
       <div class="detail-main-content">
         <div class="container_1 detail-page">
           <div class="detail-item-img col-xs-5">
-            <img :src="require(`~/assets/img/${dataSkateboard.image}.png`)" alt="" v-if="!isLoader"/>
+            <img :src="`/${dataSkateboard.image}.png`" alt="" v-if="!loading" />
           </div>
           <div class="detail-item-text col-xs-7">
             <div class="box-main">
@@ -93,7 +81,7 @@
                     @click="submit"
                     v-if="statusBtn"
                   >
-                    {{ dataSkateboard.sold_out ? 'Pay order':'Sold Out'  }}
+                    {{ dataSkateboard.sold_out ? 'Pay order' : 'Sold Out' }}
                   </button>
                   <button v-else class="disable_btn">Bought</button>
                 </div>
@@ -116,7 +104,7 @@ export default {
       count: 1,
       discountCode: '',
       statusBtn: true,
-      isLoader:true
+      loading: true
     }
   },
   watch: {
@@ -127,19 +115,16 @@ export default {
       ) {
         alert('err')
         this.count = this.dataSkateboard.maximum_quantity
-      }
-      else if(newValue<0)
-      {
+      } else if (newValue < 0) {
         alert('err')
         this.count = 1
       }
-    },
+    }
   },
   created() {
-    this.getDetailItem(this.$route.params.id)
-    .then((res) => {
+    this.getDetailItem(this.$route.params.id).then((res) => {
       this.dataSkateboard = res.data.data
-      this.isLoader=false
+      this.loading = false
     })
   },
   methods: {
@@ -160,12 +145,16 @@ export default {
       let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
       let isConnect = await helper.checkConnection()
       this.discountCode = this.discountCode.trim()
-      if (!regexSpecial.test(this.discountCode) && this.discountCode.length<10) {
+      if (!regexSpecial.test(this.discountCode) && this.discountCode.length < 10) {
         if (isConnect) {
-          this.statusBtn = false 
+          this.statusBtn = false
           setTimeout(() => (this.statusBtn = true), 1000)
-        } else this.$modal.show('login')
-      } else this.$toast.error('Err')
+        } else {
+          this.$modal.show('login')
+        }
+      } else {
+        this.$toast.error('Err')
+      }
     }
   }
 }

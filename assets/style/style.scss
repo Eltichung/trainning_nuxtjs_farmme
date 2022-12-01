@@ -23,6 +23,17 @@ a {
 li {
   list-style: none;
 }
+.btn_buy {
+  border-radius: 10px;
+  outline: 0;
+  border: 0;
+  background-image: linear-gradient(135deg, #ff8100, #fae713);
+  font-size: 14px;
+  display: inline;
+  padding: 7px;
+  color: #fff;
+  font-family: 'Quicksand', sans-serif;
+}
 .sale {
   position: absolute;
   top: 10px;
@@ -73,8 +84,7 @@ li {
   max-width: 90%;
   margin: 0 auto;
 }
-.vm--modal
-{
+.vm--modal {
   display: inline-block !important;
 }
 .modal {
@@ -218,8 +228,7 @@ li {
     -webkit-text-stroke: 0.5px #fff;
     font-size: 70px;
     color: #f1af1f;
-    span
-    {
+    span {
       margin-left: 25px;
     }
   }
@@ -747,4 +756,3 @@ footer {
 }
 
 // detail
-

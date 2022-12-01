@@ -1,19 +1,7 @@
 <template>
   <div>
-    <loader
-      object="#ff9633"
-      color1="#ffffff"
-      color2="#17fd3d"
-      size="5"
-      speed="2"
-      bg="#343a40"
-      objectbg="#999793"
-      opacity="80"
-      name="circular"
-      disableScrolling="true"
-      v-if="loading"
-    ></loader>
     <div class="main">
+      <LoadingScreen v-if="loading" />
       <MenuTop />
       <div class="time">
         <h3>{{ dataEvents.name }}</h3>
@@ -27,28 +15,29 @@
           v-for="item in dataItems"
           class="item"
           :parallax="true"
-          :class="{ disable: !Boolean(item.quantity_in_stock) }"
+          :class="{ disable: !item.quantity_in_stock }"
         >
           <div class="sale" v-if="item.best_sale">
             <img src="~/assets/img/best-seller.png" />
           </div>
           <div class="item-img">
-            <img :src="require(`~/assets/img/${item.image}.png`)" alt="" />
+            <img :src="`/${item.image}.png`" alt="" />
           </div>
           <div class="item-price">
             <h3>{{ item.name }}</h3>
             <p>Stock availabel:{{ item.quantity_in_stock }}</p>
             <div class="item-price-btn">
-              <div
-                class="item-price-btn-text"
-                :class="{ disable_price: !Boolean(item.quantity_in_stock) }"
-              >
+              <div class="item-price-btn-text" :class="{ disable_price: !item.quantity_in_stock }">
                 <p class="green">$ {{ item.price }}</p>
                 <p>{{ item.quantity_in_stock ? `$ ${item.base_price}` : 'Sold Out' }}</p>
               </div>
-              <button :class="{ disable_btn: !Boolean(item.quantity_in_stock) }" @click="getDetail(item.id)">
-                {{ item.quantity_in_stock ? 'Buy now': 'Sold Out'  }} 
-              </button>
+              <NuxtLink
+                class="btn_buy"
+                :class="{ disable_btn: !item.quantity_in_stock }"
+                :to="`/detail/${item.id}`"
+              >
+                {{ item.quantity_in_stock ? 'Buy now' : 'Sold Out' }}
+              </NuxtLink>
             </div>
           </div>
         </Tilt>
@@ -118,7 +107,7 @@ export default {
       dataItems: [],
       dataEvents: {},
       time: '',
-      interval:true
+      interval: true
     }
   },
   created() {
@@ -141,20 +130,19 @@ export default {
       this.dataEvents = res.data.data.event
       this.countDown(res.data.data.event.end_date)
       this.loading = false
-      if(this.interval)
-      {
+      if (this.interval) {
         setInterval(() => {
           this.countDown(res.data.data.event.end_date)
         }, 1000)
-        this.interval=false
+        this.interval = false
       }
     })
   },
   methods: {
     ...mapActions('item', ['getItem']),
-    countDown(end_date) {
+    countDown(endDate) {
       const timeNow = new Date().getTime()
-      const countDownToTime = new Date(end_date).getTime()
+      const countDownToTime = new Date(endDate).getTime()
       const timeDifference = countDownToTime - timeNow
       if (timeDifference <= 0) {
         this.time = 'Sold Out'
@@ -170,7 +158,7 @@ export default {
         this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
       }
     },
-    getDetail(id){
+    getDetail(id) {
       this.$router.push(`/detail/${id}`)
     }
   }
