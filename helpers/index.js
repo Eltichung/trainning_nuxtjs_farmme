@@ -14,17 +14,17 @@ export const helper = {
     return sha1(message)
   },
   checkAccount(address) {
-    let isAccount
+    let isAccount = false
     let dataUser = JSON.parse(localStorage.getItem('dataUser'))
     dataUser.forEach((item) => {
       if (item.address.toLowerCase() == address.toLowerCase()) {
         localStorage.setItem('address', address)
         localStorage.setItem('user', JSON.stringify(item))
-        isAccount = item
+        isAccount = true
         return
       }
     })
-    if (isAccount == null) {
+    if (isAccount) {
       localStorage.removeItem('user')
       localStorage.removeItem('address')
     }
