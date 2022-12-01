@@ -24,7 +24,7 @@ export const helper = {
         return
       }
     })
-    if (isAccount) {
+    if (!isAccount) {
       localStorage.removeItem('user')
       localStorage.removeItem('address')
     }
