@@ -159,6 +159,7 @@ export default {
     async submit() {
       let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
       let isConnect = await helper.checkConnection()
+      this.discountCode = this.discountCode.trim()
       if (!regexSpecial.test(this.discountCode) && this.discountCode.length<10) {
         if (isConnect) {
           this.statusBtn = false 
