@@ -16,9 +16,13 @@ export default async function () {
     ]
     await localStorage.setItem('dataUser', JSON.stringify(data))
   }
+  let addressLocal
+  if (localStorage.getItem('address') !== null) {
+    addressLocal = localStorage.getItem('address').toLowerCase()
+  }
   let address = await helper.checkConnection()
-  if (!address.length) {
+  if (!address.length || address[0] != addressLocal) {
     localStorage.removeItem('user')
     localStorage.removeItem('address')
-  } 
+  }
 }
