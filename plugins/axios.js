@@ -9,5 +9,10 @@ export default function ({ $axios, app, redirect }) {
     if (code === 400 || code === 500) {
       app.$toast.error(error.response.data && error.response.data.message)
     }
+    if(code === 401){
+      localStorage.removeItem('user')
+      localStorage.removeItem('address')
+      app.$route.push('/home')
+    }
   })
 }
