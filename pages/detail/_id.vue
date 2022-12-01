@@ -1,7 +1,6 @@
 <template>
   <div class="detail">
     <LoadingScreen v-if="loading" />
-    <MenuTop />
     <div class="bg_detail">
       <img src="~/assets/img/bg-2.png" alt="" />
     </div>
@@ -9,7 +8,7 @@
       <div class="detail-main-content">
         <div class="container_1 detail-page">
           <div class="detail-item-img col-xs-5">
-            <img :src="`/${dataSkateboard.image}.png`" alt="" v-if="!loading" />
+            <img :src="`/img/${dataSkateboard.image}.png`" alt="" v-if="!loading" />
           </div>
           <div class="detail-item-text col-xs-7">
             <div class="box-main">
@@ -58,14 +57,14 @@
                 <div class="box-item center-xs">
                   <p>Amount</p>
                   <div class="box-input">
-                    <div class="box-input-img" @click="increaseCount">
-                      <img src="~/assets/img/plus.png" alt="" />
+                    <div class="box-input-img" @click="decreaseCount">
+                      <img src="~/assets/img/minus.png" />
                     </div>
                     <div class="input">
                       <input type="number" v-model="count" />
                     </div>
-                    <div class="box-input-img" @click="decreaseCount">
-                      <img src="~/assets/img/minus.png" />
+                    <div class="box-input-img" @click="increaseCount">
+                      <img src="~/assets/img/plus.png" alt="" />
                     </div>
                   </div>
                 </div>
@@ -81,7 +80,7 @@
                     @click="submit"
                     v-if="statusBtn"
                   >
-                    {{ dataSkateboard.sold_out ? 'Pay order' : 'Sold Out' }}
+                    {{ dataSkateboard.sold_out ? 'Sold Out' : 'Pay order' }}
                   </button>
                   <button v-else class="disable_btn">Bought</button>
                 </div>
@@ -90,7 +89,6 @@
           </div>
         </div>
       </div>
-      <FooterPage />
     </div>
   </div>
 </template>
@@ -98,6 +96,7 @@
 import { mapActions } from 'vuex'
 import { helper } from '~/helpers/index'
 export default {
+  layout: 'baseLayout',
   data() {
     return {
       dataSkateboard: {},
@@ -142,10 +141,10 @@ export default {
       if (this.count > 1) this.count--
     },
     async submit() {
-      let regexSpecial = /[!@#\$%\^\&*\)\(+=._-]/g
+      let regexSpecial = /^[a-zA-Z0-9]*$/
       let isConnect = await helper.checkConnection()
       this.discountCode = this.discountCode.trim()
-      if (!regexSpecial.test(this.discountCode) && this.discountCode.length < 10) {
+      if (regexSpecial.test(this.discountCode) && this.discountCode.length < 10) {
         if (isConnect) {
           this.statusBtn = false
           setTimeout(() => (this.statusBtn = true), 1000)

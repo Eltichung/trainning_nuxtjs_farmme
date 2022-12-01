@@ -2,7 +2,6 @@
   <div>
     <div class="main">
       <LoadingScreen v-if="loading" />
-      <MenuTop />
       <div class="time">
         <h3>{{ dataEvents.name }}</h3>
         <div class="clock">
@@ -21,7 +20,7 @@
             <img src="~/assets/img/best-seller.png" />
           </div>
           <div class="item-img">
-            <img :src="`/${item.image}.png`" alt="" />
+            <img :src="`/img/${item.image}.png`" alt="" />
           </div>
           <div class="item-price">
             <h3>{{ item.name }}</h3>
@@ -101,6 +100,7 @@
 import { helper } from '~/helpers/index'
 import { mapActions } from 'vuex'
 export default {
+  layout: 'baseLayout',
   data() {
     return {
       loading: true,

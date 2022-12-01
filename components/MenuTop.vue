@@ -57,7 +57,10 @@ export default {
             return
           }
         })
-        if (!isUser) this.$modal.show('register')
+        if (!isUser) {
+          this.$modal.hide('login')
+          this.$modal.show('register')
+        }
       })
     },
     loginSuccess() {
