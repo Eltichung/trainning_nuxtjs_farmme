@@ -35,6 +35,7 @@
 <script>
 import { helper } from '~/helpers/index'
 export default {
+  props:['address'],
   data() {
     return {
       user: '',
@@ -55,8 +56,11 @@ export default {
       //save user localStorage
       this.$modal.hide('register')
       user.password = helper.decodeSha1(this.password)
+      localStorage.setItem('address', this.address)
       localStorage.setItem('user', JSON.stringify(user))
-      ;(this.user = ''), (this.password = ''), this.$emit('loginSuccess')
+      this.user = '' 
+      this.password = '' 
+      this.$emit('loginSuccess')
     }
   }
 }
