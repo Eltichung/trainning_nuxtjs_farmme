@@ -114,7 +114,7 @@ export default {
       ) {
         alert('err')
         this.count = this.dataSkateboard.maximum_quantity
-      } else if (newValue < 0) {
+      } else if (newValue <= 0) {
         alert('err')
         this.count = 1
       }
