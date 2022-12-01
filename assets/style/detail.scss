@@ -163,6 +163,8 @@ footer
         flex-direction: column;
         gap:15px;
         align-items: center;
+        flex-basis: 41.667%;
+        max-width: 41.667%;
     }
     input
     {
@@ -236,7 +238,7 @@ footer
     }    
     .box-item p {
         font-size: 14px;
-        min-width: 100px;
+        min-width: 90px;
     }
     .box-item .box-item-more {
         display:inline-block;
@@ -245,6 +247,11 @@ footer
 }
 @media screen and (max-width: 980px)
 {
+    .box-item.center-xs {
+         justify-content: unset !important; 
+       
+    }
+
     .box-item p {
 
         min-width: 80px;
@@ -256,6 +263,10 @@ footer
         {
             flex-direction: row;
             align-items:center;
+        }
+        button
+        {
+            white-space: nowrap;
         }
     }
 }
