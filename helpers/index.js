@@ -13,9 +13,24 @@ export const helper = {
   decodeSha1(message) {
     return sha1(message)
   },
+  checkAccount(address) {
+    let isAccount
+    let dataUser = JSON.parse(localStorage.getItem('dataUser'))
+    dataUser.forEach((item) => {
+      if (item.address.toLowerCase() == address.toLowerCase()) {
+        localStorage.setItem('address', address)
+        localStorage.setItem('user', JSON.stringify(item))
+        isAccount = item
+        return
+      }
+    })
+    if (isAccount == null) {
+      localStorage.removeItem('user')
+      localStorage.removeItem('address')
+    }
+  },
   async checkConnection() {
-    const accounts = await ethereum.request({ method: 'eth_accounts' })
-    return Boolean(accounts.length)
+    return await ethereum.request({ method: 'eth_accounts' })
   },
   processErrorAPI(err, message = 'error') {
     Vue.$toast.error(message)

@@ -19,7 +19,7 @@
       <LogoutForm @logoutSuccess="logoutSuccess" />
     </Teleport>
     <Teleport to="body">
-      <RegisterForm @loginSuccess="loginSuccess" :address="address"/>
+      <RegisterForm @loginSuccess="loginSuccess" :address="address" />
     </Teleport>
     <Teleport to="body">
       <ConfirmLogin @loginSuccess="loginSuccess" :connectMetamask="connect" />
@@ -33,7 +33,7 @@ export default {
     return {
       isConnect: true,
       Username: '',
-      address:''
+      address: ''
     }
   },
   created() {
@@ -47,20 +47,12 @@ export default {
   methods: {
     connect() {
       helper.getBalance().then((data) => {
-        let isUser = false
-        let dataUser = JSON.parse(localStorage.getItem('dataUser'))
-        console.log(data)
+        helper.checkAccount(data)
+        let user = JSON.parse(localStorage.getItem('user'))
         this.address = data
-        dataUser.forEach((item) => {
-          if (item.address == data) {
-            localStorage.setItem('address', this.address)
-            localStorage.setItem('user', JSON.stringify(item))
-            this.loginSuccess()
-            isUser = true
-            return
-          }
-        })
-        if (!isUser) {
+        if (user != null) {
+          this.loginSuccess()
+        } else {
           this.$modal.hide('login')
           this.$modal.show('register')
         }

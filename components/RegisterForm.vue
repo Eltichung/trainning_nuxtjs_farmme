@@ -35,7 +35,7 @@
 <script>
 import { helper } from '~/helpers/index'
 export default {
-  props:['address'],
+  props: ['address'],
   data() {
     return {
       user: '',
@@ -47,7 +47,7 @@ export default {
       let user = {
         user: this.user,
         password: helper.decodeSha1(this.password),
-        address: localStorage.getItem('address')
+        address: this.address
       }
       //add user
       let dataUser = JSON.parse(localStorage.getItem('dataUser'))
@@ -58,8 +58,8 @@ export default {
       user.password = helper.decodeSha1(this.password)
       localStorage.setItem('address', this.address)
       localStorage.setItem('user', JSON.stringify(user))
-      this.user = '' 
-      this.password = '' 
+      this.user = ''
+      this.password = ''
       this.$emit('loginSuccess')
     }
   }
