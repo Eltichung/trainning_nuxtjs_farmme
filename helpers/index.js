@@ -14,19 +14,21 @@ export const helper = {
     return sha1(message)
   },
   checkAccount(address) {
-    let isAccount = false
-    let dataUser = JSON.parse(localStorage.getItem('dataUser'))
-    dataUser.forEach((item) => {
-      if (item.address.toLowerCase() == address.toLowerCase()) {
-        localStorage.setItem('address', address)
-        localStorage.setItem('user', JSON.stringify(item))
-        isAccount = true
-        return
+    if (address != null) {
+      let isAccount = false
+      let dataUser = JSON.parse(localStorage.getItem('dataUser'))
+      dataUser.forEach((item) => {
+        if (item.address.toLowerCase() == address.toLowerCase()) {
+          localStorage.setItem('address', address)
+          localStorage.setItem('user', JSON.stringify(item))
+          isAccount = true
+          return
+        }
+      })
+      if (!isAccount) {
+        localStorage.removeItem('user')
+        localStorage.removeItem('address')
       }
-    })
-    if (!isAccount) {
-      localStorage.removeItem('user')
-      localStorage.removeItem('address')
     }
   },
   checkConnection() {
