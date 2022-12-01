@@ -12,7 +12,7 @@ export default function ({ $axios, app, redirect }) {
     if(code === 401){
       localStorage.removeItem('user')
       localStorage.removeItem('address')
-      app.router.replace('/login')
+      app.router.replace('/home')
     }
   })
 }
