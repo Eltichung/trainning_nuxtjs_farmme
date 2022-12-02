@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('login', ['loginUser']),
+    ...mapActions('auth', ['loginUser']),
     submit() {
       let user = {
         user: this.user,

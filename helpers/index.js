@@ -19,13 +19,13 @@ export const helper = {
     console.log(window.$nuxt.$store)
     dataUser.forEach((item) => {
       if (item.address.toLowerCase() == address.toLowerCase()) {
-        $nuxt.$store.dispatch('login/loginUser', { address, user: item })
+        $nuxt.$store.dispatch('auth/loginUser', { address, user: item })
         isAccount = true
         return
       }
     })
     if (!isAccount) {
-      $nuxt.$store.dispatch('login/logoutUser')
+      $nuxt.$store.dispatch('auth/logoutUser')
     }
   },
   checkConnection() {

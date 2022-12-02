@@ -14,7 +14,7 @@
 import { mapActions } from 'vuex'
 export default {
   methods: {
-    ...mapActions('login', ['logoutUser']),
+    ...mapActions('auth', ['logoutUser']),
     logout() {
       this.logoutUser()
       this.$modal.hide('logout')

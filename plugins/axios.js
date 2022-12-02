@@ -8,7 +8,7 @@ export default function ({ $axios, app, redirect }) {
       app.$toast.error(error.response.data && error.response.data.message)
     }
     if (code === 401) {
-      app.store.dispatch('login/logoutUser')
+      app.store.dispatch('auth/logoutUser')
       app.router.replace('/home')
     }
   })
