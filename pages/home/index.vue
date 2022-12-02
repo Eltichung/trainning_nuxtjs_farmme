@@ -123,9 +123,11 @@ export default {
         this.interval = false
       }
     })
+    this.test()
   },
   methods: {
     ...mapActions('item', ['getItem']),
+    ...mapActions('login', ['test']),
     countDown(endDate) {
       const timeNow = new Date().getTime()
       const countDownToTime = new Date(endDate).getTime()
