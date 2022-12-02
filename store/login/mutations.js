@@ -1,5 +1,5 @@
 export default {
-    SET_DATA(state) {
-      state.user = 2
-    }
+  SET_DATA(state) {
+    state.user = 2
   }
+}

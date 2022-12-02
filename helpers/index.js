@@ -16,17 +16,16 @@ export const helper = {
   checkAccount(address) {
     let isAccount = false
     let dataUser = JSON.parse(localStorage.getItem('dataUser'))
+    console.log(window.$nuxt.$store)
     dataUser.forEach((item) => {
       if (item.address.toLowerCase() == address.toLowerCase()) {
-        localStorage.setItem('address', address)
-        localStorage.setItem('user', JSON.stringify(item))
+        $nuxt.$store.dispatch('login/loginUser', { address, user: item })
         isAccount = true
         return
       }
     })
     if (!isAccount) {
-      localStorage.removeItem('user')
-      localStorage.removeItem('address')
+      $nuxt.$store.dispatch('login/logoutUser')
     }
   },
   checkConnection() {

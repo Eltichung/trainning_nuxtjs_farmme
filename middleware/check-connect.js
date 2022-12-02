@@ -22,7 +22,6 @@ export default async function () {
   }
   let address = await helper.checkConnection()
   if (!address.length || address[0] != addressLocal) {
-    localStorage.removeItem('user')
-    localStorage.removeItem('address')
+    $nuxt.$store.dispatch('login/logoutUser')
   }
 }

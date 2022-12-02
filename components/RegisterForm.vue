@@ -33,6 +33,7 @@
   </modal>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import { helper } from '~/helpers/index'
 export default {
   props: ['address'],
@@ -43,6 +44,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('login', ['loginUser']),
     submit() {
       let user = {
         user: this.user,
@@ -56,8 +58,7 @@ export default {
       //save user localStorage
       this.$modal.hide('register')
       user.password = helper.decodeSha1(this.password)
-      localStorage.setItem('address', this.address)
-      localStorage.setItem('user', JSON.stringify(user))
+      this.loginUser({ address: this.address, user })
       this.user = ''
       this.password = ''
       this.$emit('loginSuccess')

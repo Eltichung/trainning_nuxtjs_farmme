@@ -11,11 +11,12 @@
   </modal>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   methods: {
+    ...mapActions('login', ['logoutUser']),
     logout() {
-      localStorage.removeItem('user')
-      localStorage.removeItem('address')
+      this.logoutUser()
       this.$modal.hide('logout')
       this.$emit('logoutSuccess')
     }
