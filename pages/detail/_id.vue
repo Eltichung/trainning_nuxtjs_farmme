@@ -122,6 +122,8 @@ export default {
   },
   created() {
     this.getdata()
+    this.$axios.defaults.headers.common['Authorization'] =
+      'Bearer 256|WWSqAEjVvum4W3Cdy3tDKdH7YnC7fuG7TsQ6WdFP'
   },
   methods: {
     ...mapActions('item', ['getDetailItem', 'buyItem']),

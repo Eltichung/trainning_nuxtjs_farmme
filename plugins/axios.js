@@ -1,6 +1,4 @@
 export default function ({ $axios, app, redirect }) {
-  $axios.defaults.headers.common['Authorization'] =
-    'Bearer 256|WWSqAEjVvum4W3Cdy3tDKdH7YnC7fuG7TsQ6WdFP'
   $axios.create({
     baseURL: process.env.BASE_URL
   })
@@ -9,9 +7,8 @@ export default function ({ $axios, app, redirect }) {
     if (code === 400 || code === 500) {
       app.$toast.error(error.response.data && error.response.data.message)
     }
-    if(code === 401){
-      localStorage.removeItem('user')
-      localStorage.removeItem('address')
+    if (code === 401) {
+      app.store.dispatch('auth/logoutUser')
       app.router.replace('/home')
     }
   })
