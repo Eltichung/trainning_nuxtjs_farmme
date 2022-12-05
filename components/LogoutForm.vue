@@ -19,6 +19,7 @@ export default {
       this.logoutUser()
       this.$modal.hide('logout')
       this.$emit('logoutSuccess')
+      this.$router.push('/home')
     }
   }
 }

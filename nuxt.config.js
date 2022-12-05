@@ -30,7 +30,8 @@ export default {
     '~/plugins/vee-validate.js',
     '~/plugins/loading-screen.js',
     '~/plugins/vanilla-tilt.js',
-    '~/plugins/toast.js'
+    '~/plugins/toast.js',
+    '~/plugins/pagination.js'
   ],
   axios: {
     baseURL: process.env.BASE_URL
