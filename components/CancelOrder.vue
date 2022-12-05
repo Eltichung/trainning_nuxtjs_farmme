@@ -12,11 +12,11 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  props: ['dataOrder'],
+  props: ['dataOrder','typeBtn'],
   methods: {
     ...mapActions('order', ['getOrderHistories', 'cancelOrder']),
     confirm() {
-      console.log(this.dataOrder)
+    
       this.cancelOrder(this.dataOrder)
         .then(() => {
           this.$modal.hide('cancelOrder')

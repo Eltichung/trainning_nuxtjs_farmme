@@ -56,11 +56,11 @@
       </div>
     </div>
     <Teleport to="body">
-      <ConfirmOrder :dataOrder="dataOrder" @susses="susses" />
+      <ConfirmOrder :dataOrder="dataOrder" :typeBtn="typeBtn" @susses="susses" />
     </Teleport>
-    <Teleport to="body">
+    <!-- <Teleport to="body">
       <CancelOrder :dataOrder="dataOrder" @susses="susses" />
-    </Teleport>
+    </Teleport> -->
   </div>
 </template>
 <script>
@@ -77,6 +77,7 @@ export default {
       itemCount: 0,
       pageCount: 1,
       dataOrder: {},
+      typeBtn:0,
       paginationAnchorTexts: {
         first: ' ',
         prev: 'Pre',
@@ -111,6 +112,7 @@ export default {
         tx_hash: localStorage.getItem('address'),
         order_id: id
       }
+      this.typeBtn=1//1:pay
       this.$modal.show('confirmOrder')
     },
     cancelItem(id) {
@@ -118,7 +120,8 @@ export default {
         tx_hash: localStorage.getItem('address'),
         id: id
       }
-      this.$modal.show('cancelOrder')
+      this.typeBtn=2//2:cancel
+      this.$modal.show('confirmOrder')
     },
     susses() {
       this.getDataHistories()

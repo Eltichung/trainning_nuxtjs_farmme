@@ -33,6 +33,7 @@ export default {
       this.$axios
         .post(api.API_GET_COMPLETE, data)
         .then((response) => {
+          helper.processSuccessAPI()
           resolve(response)
         })
         .catch((error) => {

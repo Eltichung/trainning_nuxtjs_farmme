@@ -12,12 +12,24 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  props: ['dataOrder'],
+  props: ['dataOrder','typeBtn'],
   methods: {
-    ...mapActions('order', ['getOrderHistories', 'completeOrder']),
+    ...mapActions('order', ['getOrderHistories', 'completeOrder','cancelOrder']),
     confirm() {
-      console.log(this.dataOrder)
-      this.completeOrder(this.dataOrder)
+      if(this.typeBtn==1)
+      {
+        this.completeOrder(this.dataOrder)
+          .then(() => {
+            this.$modal.hide('confirmOrder')
+            this.$emit('susses')
+          })
+          .catch(() => {
+            this.$modal.hide('confirmOrder')
+          })
+      }
+      else if(this.typeBtn==2)
+      {
+        this.cancelOrder(this.dataOrder)
         .then(() => {
           this.$modal.hide('confirmOrder')
           this.$emit('susses')
@@ -25,6 +37,7 @@ export default {
         .catch(() => {
           this.$modal.hide('confirmOrder')
         })
+      }
     },
     cancel() {
       this.$modal.hide('confirmOrder')
