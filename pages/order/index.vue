@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div class="detail order-page">
     <LoadingScreen v-if="dataHistories == []" />
     <div class="order">
       <h1 class="order-title"><span>ORDER</span>HISTORY</h1>
