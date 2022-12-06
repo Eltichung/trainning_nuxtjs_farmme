@@ -450,6 +450,7 @@ input[type='number'] {
   &:hover {
     background: #207876;
     color: #fff;
+    transition: all 0.25s ease-out;
   }
 }
 .pagination-link--active {
