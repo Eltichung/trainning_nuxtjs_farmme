@@ -30,8 +30,8 @@
               <td>{{ item.item_name }}</td>
               <td>{{ item.item_quantity }} item</td>
               <td>{{ item.item_unit_price }} USDT</td>
-              <td>{{ item.discount_value }}%</td>
-              <td>{{ item.sub_total }} USDT</td>
+              <td>{{ item.coupon_percent }}%</td>
+              <td>{{ item.total }} USDT</td>
               <td :class="`status_${item.status}`">{{ getStatus(item.status) }}</td>
               <td colspan="2" class="hash" :class="{ hash_active: item.status == 1 }">
                 <p>{{ item.tx_hash }}</p>
