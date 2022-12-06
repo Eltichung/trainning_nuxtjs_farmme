@@ -315,6 +315,7 @@ input[type='number'] {
     text-align: center;
     span {
       color: #f1af1f;
+      margin-right: 10px;
     }
   }
   .box-page {
@@ -385,8 +386,16 @@ input[type='number'] {
     color: #d90909 !important;
   }
   .hash {
-    overflow: hidden;
     display: none;
+    p
+    {
+      height:40px;
+      line-height: 40px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
   }
   .hash_active {
     display: block !important;
