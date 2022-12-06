@@ -1,10 +1,10 @@
 import api from '~/ultis/api'
 import { helper } from '~/helpers/index'
 export default {
-  getOrderHistories({ commit, state }, currentPage) {
+  getOrderHistories({ commit, state }, params) {
     return new Promise((resolve, reject) => {
-      this.$axios
-        .get(`${api.API_GET_ORDER_HISTORIES}?page=${currentPage}`)
+      this.$axios 
+        .get(api.API_GET_ORDER_HISTORIES,{params})
         .then((response) => {
           resolve(response)
         })

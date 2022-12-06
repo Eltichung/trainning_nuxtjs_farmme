@@ -1,6 +1,7 @@
 <template>
   <div class="detail order-page">
     <LoadingScreen v-if="loading" />
+    <div class="bg_detail"><img src="~/assets/img/bg-2.png" alt=""></div>
     <div class="order">
       <h1 class="order-title"><span>ORDER</span>HISTORY</h1>
       <div class="order-container">
@@ -94,10 +95,13 @@ export default {
   methods: {
     ...mapActions('order', ['getOrderHistories', 'cancelOrder', 'completeOrder']),
     getDataHistories() {
-      this.getOrderHistories(this.currentPage).then((res) => {
+      this.loading = true
+      this.getOrderHistories({page:this.currentPage}).then((res) => {
         this.dataHistories = res.data.data.orders
         this.itemCount = res.data.data.total
         this.pageCount = Math.round(res.data.data.total / res.data.data.perPage)
+      })
+      .finally(()=>{
         this.loading = false
       })
     },

@@ -300,9 +300,16 @@ input[type='number'] {
 }
 
 //page-order
+.order-page
+{
+  margin-top:0 !important;
+}
+.order-page + footer {
+  padding-top: 50px ;
+}
 .order {
-  background: url(/_nuxt/assets/img/bg-footer.jpg) top center no-repeat;
-  padding-top: 100px;
+  background: url(~/assets/img/bg-footer.jpg) center center no-repeat;
+  padding-top: 200px;
   padding-bottom: 50px;
   .order-container {
     width: 1300px;
@@ -311,10 +318,11 @@ input[type='number'] {
   }
   .order-title {
     margin: auto;
-    color: #794821;
+    color: #f1af1f;
     text-align: center;
+    font-size: 45px;
     span {
-      color: #f1af1f;
+      color: #794821;
       margin-right: 10px;
     }
   }
@@ -326,6 +334,8 @@ input[type='number'] {
     border-radius: 5px;
     cursor: pointer;
     background: #fff;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: normal;
   }
   .order-main {
     border: 3px solid #794821;
