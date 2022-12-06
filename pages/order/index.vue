@@ -1,6 +1,6 @@
 <template>
   <div class="detail order-page">
-    <LoadingScreen v-if="dataHistories == []" />
+    <LoadingScreen v-if="loading" />
     <div class="order">
       <h1 class="order-title"><span>ORDER</span>HISTORY</h1>
       <div class="order-container">
@@ -21,7 +21,7 @@
                 <th>Txhash</th>
               </tr>
             </thead>
-            <tr class="between-xs" v-for="item in dataHistories" :key="item.id">
+            <tr class="between-xs middle-xs" v-for="item in dataHistories" :key="item.id">
               <td>
                 <p>{{ item.date }}</p>
                 <p>{{ getTime(item.created_at) }}</p>
@@ -56,11 +56,8 @@
       </div>
     </div>
     <Teleport to="body">
-      <ConfirmOrder :dataOrder="dataOrder" :typeBtn="typeBtn" @susses="susses" />
+      <ConfirmOrder :dataOrder="dataOrder" :typeBtn="typeBtn" @succsses="succsses" />
     </Teleport>
-    <!-- <Teleport to="body">
-      <CancelOrder :dataOrder="dataOrder" @susses="susses" />
-    </Teleport> -->
   </div>
 </template>
 <script>
@@ -77,7 +74,7 @@ export default {
       itemCount: 0,
       pageCount: 1,
       dataOrder: {},
-      typeBtn:0,
+      typeBtn: '',
       paginationAnchorTexts: {
         first: ' ',
         prev: 'Pre',
@@ -112,18 +109,18 @@ export default {
         tx_hash: localStorage.getItem('address'),
         order_id: id
       }
-      this.typeBtn=1//1:pay
+      this.typeBtn = 'pay'
       this.$modal.show('confirmOrder')
     },
     cancelItem(id) {
       this.dataOrder = {
-        tx_hash: localStorage.getItem('address'),
         id: id
       }
-      this.typeBtn=2//2:cancel
+      this.typeBtn = 'cancel'
       this.$modal.show('confirmOrder')
     },
-    susses() {
+    succsses() {
+      this.loading = true
       this.getDataHistories()
     },
     getTime(time) {

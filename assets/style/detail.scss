@@ -24,7 +24,7 @@ input[type='number'] {
   }
 }
 .order-page + footer {
-  background: url(/_nuxt/assets/img/bg-footer.jpg) bottom center no-repeat;
+  background: url(~/assets/img/bg-footer.jpg) bottom center no-repeat;
 }
 .detail {
   margin-top: 50px;
@@ -347,6 +347,9 @@ input[type='number'] {
     }
     tr {
       display: flex;
+      p {
+        line-height: 30px;
+      }
     }
   }
   .order-btn {
