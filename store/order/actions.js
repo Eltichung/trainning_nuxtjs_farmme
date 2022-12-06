@@ -3,8 +3,8 @@ import { helper } from '~/helpers/index'
 export default {
   getOrderHistories({ commit, state }, params) {
     return new Promise((resolve, reject) => {
-      this.$axios 
-        .get(api.API_GET_ORDER_HISTORIES,{params})
+      this.$axios
+        .get(api.API_GET_ORDER_HISTORIES, { params })
         .then((response) => {
           resolve(response)
         })

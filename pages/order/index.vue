@@ -1,7 +1,7 @@
 <template>
   <div class="detail order-page">
     <LoadingScreen v-if="loading" />
-    <div class="bg_detail"><img src="~/assets/img/bg-2.png" alt=""></div>
+    <div class="bg_detail"><img src="~/assets/img/bg-2.png" alt="" /></div>
     <div class="order">
       <h1 class="order-title"><span>ORDER</span>HISTORY</h1>
       <div class="order-container">
@@ -33,16 +33,16 @@
               <td>{{ item.discount_value }}%</td>
               <td>{{ item.sub_total }} USDT</td>
               <td :class="`status_${item.status}`">{{ getStatus(item.status) }}</td>
-              <td class="hash" :class="{ hash_active: item.status == 1 }">
+              <td colspan="2" class="hash" :class="{ hash_active: item.status == 1 }">
                 <p>{{ item.tx_hash }}</p>
               </td>
-              <td class="hash" :class="{ hash_active: item.status == 2 }">
+              <td colspan="2" class="hash" :class="{ hash_active: item.status == 2 }">
                 <div class="order-btn">
                   <button class="btn btn-pay" @click="payItem(item.id)">Pay</button>
                   <button class="btn btn-cancel" @click="cancelItem(item.id)">Cancel</button>
                 </div>
               </td>
-              <td class="hash" :class="{ hash_active: item.status == 3 }"></td>
+              <td colspan="2" class="hash" :class="{ hash_active: item.status == 3 }"></td>
             </tr>
           </table>
           <div class="box-pagination">
@@ -96,14 +96,15 @@ export default {
     ...mapActions('order', ['getOrderHistories', 'cancelOrder', 'completeOrder']),
     getDataHistories() {
       this.loading = true
-      this.getOrderHistories({page:this.currentPage}).then((res) => {
-        this.dataHistories = res.data.data.orders
-        this.itemCount = res.data.data.total
-        this.pageCount = Math.round(res.data.data.total / res.data.data.perPage)
-      })
-      .finally(()=>{
-        this.loading = false
-      })
+      this.getOrderHistories({ page: this.currentPage })
+        .then((res) => {
+          this.dataHistories = res.data.data.orders
+          this.itemCount = res.data.data.total
+          this.pageCount = Math.round(res.data.data.total / res.data.data.perPage)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     getStatus(status) {
       return constants.STATUS_ORDER[status]
