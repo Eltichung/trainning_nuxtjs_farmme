@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import moment from 'moment'
 import Vue from 'vue'
 const sha1 = require('js-sha1')
 export const helper = {
@@ -16,7 +17,6 @@ export const helper = {
   checkAccount(address) {
     let isAccount = false
     let dataUser = JSON.parse(localStorage.getItem('dataUser'))
-    console.log(window.$nuxt.$store)
     dataUser.forEach((item) => {
       if (item.address.toLowerCase() == address.toLowerCase()) {
         $nuxt.$store.dispatch('auth/loginUser', { address, user: item })
@@ -37,5 +37,8 @@ export const helper = {
   },
   processSuccessAPI(message = 'success') {
     Vue.$toast.success(message)
+  },
+  convertDate: (time, type = 'YYYY-DD-MM') => {
+    return moment(time).format(type)
   }
 }

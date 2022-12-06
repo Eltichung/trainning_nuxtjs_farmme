@@ -23,5 +23,7 @@ export default async function () {
   let address = await helper.checkConnection()
   if (!address.length || address[0] != addressLocal) {
     $nuxt.$store.dispatch('auth/logoutUser')
+  } else {
+    helper.checkAccount(address[0])
   }
 }

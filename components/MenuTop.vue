@@ -7,7 +7,9 @@
       <li>
         <NuxtLink to="/home">HOME</NuxtLink>
       </li>
-      <li><a href="#">ORDER HISTORY</a></li>
+      <li>
+        <NuxtLink to="/order">ORDER HISTORY</NuxtLink>
+      </li>
       <li><a href="#">NFT MARKET</a></li>
     </ul>
     <div class="meta_mask">

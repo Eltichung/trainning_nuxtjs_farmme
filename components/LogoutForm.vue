@@ -4,7 +4,7 @@
       <h3>Confirm Logout</h3>
       <div class="btn between-xs">
         <button @click="logout">YES</button>
-        <button>NO</button>
+        <button @click="cancel">NO</button>
       </div>
       <img src="~/assets/img/icon2.png" alt="" />
     </div>
@@ -19,6 +19,10 @@ export default {
       this.logoutUser()
       this.$modal.hide('logout')
       this.$emit('logoutSuccess')
+      this.$router.push('/home')
+    },
+    cancel() {
+      this.$modal.hide('logout')
     }
   }
 }
