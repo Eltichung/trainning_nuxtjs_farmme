@@ -389,12 +389,9 @@ input[type='number'] {
     display: none;
     p
     {
-      height:40px;
-      line-height: 40px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 1;
+      white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     }
   }
   .hash_active {
