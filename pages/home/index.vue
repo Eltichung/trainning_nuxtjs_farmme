@@ -8,6 +8,9 @@
           <p v-html="time"></p>
         </div>
       </div>
+      <button @click="add">add111111111111111111</button>
+      <button @click="switchChain">switch111111111111</button>
+      <button @click="send">send111111111111</button>
       <div class="list-product container_1">
         <Tilt
           :options="{ max: 18, speed: 400 }"
@@ -98,7 +101,7 @@
 </template>
 <script>
 import { helper } from '~/helpers/index'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   layout: 'baseLayout',
   data() {
@@ -124,8 +127,14 @@ export default {
       }
     })
   },
+  computed: {
+    ...mapState({
+      dataNetwork: (state) => state.auth.networkMap
+    })
+  },
   methods: {
     ...mapActions('item', ['getItem']),
+    ...mapActions('auth', ['addNetWork', 'switchNetWork','sendTransaction']),
     countDown(endDate) {
       const timeNow = new Date().getTime()
       const countDownToTime = new Date(endDate).getTime()
@@ -143,6 +152,15 @@ export default {
         hours = hours < 10 ? `0 ${hours}` : hours
         this.time = `${days} DAY <span>${hours} : ${minutes} : ${seconds}</span>`
       }
+    },
+    add() {
+      this.addNetWork(this.dataNetwork.BSC_TESTNET)
+    },
+    switchChain() {
+      this.switchNetWork(this.dataNetwork.AURORA_TESTNET)
+    },
+    send(){
+      this.sendTransaction()
     }
   }
 }
