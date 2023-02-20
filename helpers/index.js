@@ -1,5 +1,8 @@
 import { BigNumber, ethers, utils } from 'ethers'
 import { getAddress } from 'ethers/lib/utils'
+import { ContractFactory } from 'ethers';
+let dataFile = require('~/plugins/erc20.json');
+let address = ''
 export const helper = {
   connect() {
     if (typeof window.ethereum === 'undefined') {
@@ -25,8 +28,8 @@ export const helper = {
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     await provider.send('eth_requestAccounts', [])
     const signer = provider.getSigner()
-    const chainId = await signer.getAddress()
-    console.log(signer) 
+    address = await signer.getAddress()
+    console.log(address) 
   },
   addChainTest(){
     let chainIdAurora = {
@@ -56,18 +59,18 @@ export const helper = {
       })
       .catch((switchError) => {
         if (switchError.code === 4902) {
-          addChainTest
+          addChainTest()
         }
       })
   },
   sendTransaction() {
+    console.log(address)
     let transactionParam = {
-      to: '0x1Bb63ca507d7C4a0407879112aed765521207343',
-      from: '0x26ab9D60a13750b7C35e006679b85a5375900f0c',
+      to: '0x74898c98F0e5baC3ff69EFA7d6610f60cD95f3e1',
+      from: address,
       value: (0.0001 * 1e18).toString(16),
       chainId: utils.hexValue(1313161555),
     };
-    console.log(transactionParam)
     ethereum
       .request({
         method: 'eth_sendTransaction',
@@ -83,19 +86,32 @@ export const helper = {
     // console.log(tmp.add(tmp2))
     console.log(tmp3.toBigInt)
   },
-  connectContract(){
-    const abi = [
-      "function balanceOf(address owner) view returns (uint256)",
-      "function decimals() view returns (uint8)",
-      "function symbol() view returns (string)",
-      "function transfer(address to, uint amount) returns (bool)",
-      "event Transfer(address indexed from, address indexed to, uint amount)"
-  ];
-  const provider = new ethers.providers.Web3Provider(window.ethereum)
-  const signer = provider.getSigner()
-  const address = "0x08B05E342C8F170ebc503B88Ee0dca441F7cFEF7";
-  const erc20 = new ethers.Contract(address, abi, provider);
-  const erc20_rw = new ethers.Contract(address, abi, signer);
-  console.log(erc20.decimals)
-  }
+  async connectContract(){
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const [account] = await ethereum.request({
+        method: 'eth_requestAccounts'
+    });
+    const signer = provider.getSigner(account);
+    const address = "0x0aD3ae610bd06A7Ee6aAc41F87a5B34B9a29333d";
+    const abi = dataFile
+    const erc20 = new ethers.Contract(address, abi, provider);
+    const erc20_rw = new ethers.Contract(address, abi, signer);
+    let addressTo = '0x74898c98F0e5baC3ff69EFA7d6610f60cD95f3e1'
+  // await erc20_rw.filters.Transfer(address, addressTo, 0.0001)
+    // console.log(counter.toString())
+    
+    await erc20.on("Transfer", (from, to, value, event) => {
+      let info = {
+        from: from,
+        to: to,
+        value: (value * 1e18).toString(16),
+        data: event,
+      };
+      console.log(JSON.stringify(info, null, 4));
+    });
+  },
 }
+
+
+
+

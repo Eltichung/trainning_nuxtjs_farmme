@@ -1,12 +1,13 @@
 <template>
   <div style="margin-top: 200px; margin-left: 100px;">
+    <!-- <img src="../test.txt" alt=""> -->
     <button @click="connectMetamask">Connect</button>
     <button @click="getAddress">Address</button>
     <button @click="switchChain">Switch</button>
     <button @click="addChain">Add</button>
     <button @click="send">Send</button>
     <button @click="testBigNumber">BigNumber</button>
-    <button @click="connectSmartContract">connectSmartContract</button>
+    <button @click="connectSmartContract">connectSmartContract(transfer)</button>
   </div>
 </template>
 <script>
@@ -35,6 +36,8 @@ export default {
     connectSmartContract(){
       helper.connectContract()
     }
+  },
+  mounted(){
   }
 }
 </script>
